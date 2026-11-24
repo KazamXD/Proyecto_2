@@ -18,3 +18,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware('auth')->name('dashboard');
 
+Route::get('/dashboard', function () {
+    return 'Bienvenido a SIGEL, ' . auth()->user()->nombre;
+})->middleware('auth')->name('dashboard');
+
