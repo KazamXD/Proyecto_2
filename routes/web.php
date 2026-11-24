@@ -1,18 +1,20 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BienvenidaController;
-use App\Http\Controllers\EquipoController;
-use App\Http\Controllers\CategoriaController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+use App\Http\Controllers\AuthController;
 
-Route::get('/bienvenida', [BienvenidaController::class, 'index']);
+Route::get('/login', [AuthController::class, 'mostrarLogin'])
+    ->name('login');
 
-Route::get('/equipos', [EquipoController::class, 'index'])
-    ->name('equipos.index');
+Route::post('/login', [AuthController::class, 'login'])
+    ->name('login.procesar');
 
-Route::get('/categorias', [CategoriaController::class, 'index'])
-    ->name('categorias.index');
+Route::post('/logout', [AuthController::class, 'logout'])
+    ->middleware('auth')
+    ->name('logout');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware('auth')->name('dashboard');
+
