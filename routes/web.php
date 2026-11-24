@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
 
 Route::get('/login', [AuthController::class, 'mostrarLogin'])
@@ -10,15 +10,21 @@ Route::get('/login', [AuthController::class, 'mostrarLogin'])
 Route::post('/login', [AuthController::class, 'login'])
     ->name('login.procesar');
 
+Route::get('/', function () {
+    return auth()->check()
+        ? redirect()->route('dashboard')
+        : redirect()->route('login');
+})->name('inicio');
+
+Route::get('/login', [AuthController::class, 'mostrarLogin'])
+    ->middleware('guest')
+    ->name('login');
+
 Route::post('/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth')->name('dashboard');
-
-Route::get('/dashboard', function () {
-    return 'Bienvenido a SIGEL, ' . auth()->user()->nombre;
-})->middleware('auth')->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware('auth')
+    ->name('dashboard');
 
