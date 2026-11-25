@@ -93,25 +93,39 @@
                 </div>
             @endif
 
-            @if ($puedeCrearEquipos)
+            @if ($puedeVerEquipos)
                 <div class="col-md-4">
                     <div class="card shadow-sm h-100">
                         <div class="card-body">
-                            <h5 class="card-title">Equipos</h5>
+                            <h5 class="card-title">Gestión de equipos</h5>
                             <p class="card-text">
-                                Registrar nuevos equipos de cómputo.
+                                Consultar, buscar y gestionar los equipos
+                                de cómputo registrados.
                             </p>
 
-                            @if (Route::has('equipos.create'))
-                                <a href="{{ route('equipos.create') }}"
-                                   class="btn btn-success">
-                                    Crear equipo
-                                </a>
-                            @else
-                                <button class="btn btn-success" disabled>
-                                    Próximamente
-                                </button>
-                            @endif
+                            <a href="{{ route('equipos.index') }}"
+                               class="btn btn-success">
+                                Ir a equipos
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            @if ($puedeVerCategorias)
+                <div class="col-md-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Gestión de categorías</h5>
+                            <p class="card-text">
+                                Consultar las categorías y los equipos
+                                asociados a cada una.
+                            </p>
+
+                            <a href="{{ route('categorias.index') }}"
+                               class="btn btn-info">
+                                Ir a categorías
+                            </a>
                         </div>
                     </div>
                 </div>
