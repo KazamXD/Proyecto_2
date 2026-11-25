@@ -29,10 +29,12 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware('auth')
     ->name('dashboard');
 
-// Equipos
+// Equipos: requiere autenticación y permiso para consultar
 Route::get('/equipos', [EquipoController::class, 'index'])
+    ->middleware(['auth', 'permiso:equipos.ver'])
     ->name('equipos.index');
 
-// Categorías
+// Categorías: requiere autenticación y permiso para consultar
 Route::get('/categorias', [CategoriaController::class, 'index'])
+    ->middleware(['auth', 'permiso:categorias.ver'])
     ->name('categorias.index');
