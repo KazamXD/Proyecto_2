@@ -43,8 +43,12 @@ class DashboardController extends Controller
             'usuarios.crear', $permisos, true
         );
 
-        $puedeCrearEquipos = in_array(
-            'equipos.crear', $permisos, true
+        $puedeVerEquipos = in_array(
+            'equipos.ver', $permisos, true
+        );
+
+        $puedeVerCategorias = in_array(
+            'categorias.ver', $permisos, true
         );
 
         $puedeCrearPrestamos = in_array(
@@ -59,7 +63,8 @@ class DashboardController extends Controller
             'usuario',
             'permisos',
             'puedeCrearUsuarios',
-            'puedeCrearEquipos',
+            'puedeVerEquipos',
+            'puedeVerCategorias',
             'puedeCrearPrestamos',
             'puedeCrearSolicitudes'
         ));
