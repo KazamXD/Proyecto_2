@@ -25,6 +25,6 @@ Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware('auth')
+    ->middleware(['auth', 'inactividad'])
     ->name('dashboard');
 
