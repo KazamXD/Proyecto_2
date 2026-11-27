@@ -9,40 +9,53 @@ use Symfony\Component\HttpFoundation\Response;
 
 class VerificarInactividad
 {
+    
     public function handle(Request $request, Closure $next): Response
     {
-        $limite = 15 * 60; // 15 minutos en segundos
-
+        $limite = 15 * 60;
         $ahora = time();
+
+        // Comprobar que el usuario continúe activo
+        if (!Auth::user()->activo) {
+            Auth::logout();
+
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('login')
+                ->with('mensaje', 'Tu cuenta está desactivada.');
+        }
+
+        // Detectar autenticación restaurada mediante Recordarme
+        if (Auth::viaRemember()) {
+            $request->session()->put('recordarme', true);
+        }
+
+        $recordarme = (bool) $request->session()->get('recordarme', false);
 
         $ultimaActividad = $request->session()
             ->get('ultima_actividad');
 
-        // Verificar el tiempo transcurrido
         if (
+            !$recordarme &&
             $ultimaActividad !== null &&
             ($ahora - (int) $ultimaActividad) >= $limite
         ) {
-            // Cerrar sesión
             Auth::logout();
 
-            // Invalidar la sesión anterior
             $request->session()->invalidate();
-
-            // Generar un nuevo token CSRF
             $request->session()->regenerateToken();
 
-            return redirect()
-                ->route('login')
+            return redirect()->route('login')
                 ->with(
                     'mensaje',
-                    'Tu sesión expiró por inactividad. Inicia sesión nuevamente.'
+                    'Tu sesión expiró por inactividad.'
                 );
         }
 
-        // Actualizar la última actividad
         $request->session()->put('ultima_actividad', $ahora);
 
         return $next($request);
     }
+
 }

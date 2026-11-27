@@ -28,7 +28,7 @@
             <div class="card shadow-lg border-0 rounded-4">
 
                 <div class="card-body p-4 p-md-5">
-
+                    
                     <!-- Encabezado -->
                     <div class="text-center mb-4">
                         <h1 class="fw-bold text-primary mb-2">
@@ -114,6 +114,23 @@
                             >
                                 Iniciar sesión
                             </button>
+                        </div>
+
+                        </br>
+                        <!-- Recordarme -->
+                        <div class="form-check mb-4">
+                            <input
+                                type="checkbox"
+                                id="recordarme"
+                                name="recordarme"
+                                value="1"
+                                class="form-check-input"
+                                @checked(old('recordarme'))
+                            >
+
+                            <label for="recordarme" class="form-check-label">
+                                Recordarme durante 14 días
+                            </label>
                         </div>
                     </form>
 

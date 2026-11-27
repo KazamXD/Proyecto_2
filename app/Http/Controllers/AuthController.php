@@ -51,8 +51,11 @@ class AuthController extends Controller
             'activo' => 1,
         ];
 
+        //Recordarme de 14 días
+        $recordarme = $request->boolean('recordarme');
+
         // 5. Intentar iniciar sesión
-        if (Auth::attempt($credenciales)) {
+        if (Auth::attempt($credenciales, $recordarme)) {
 
             RateLimiter::clear($clave);
 
@@ -60,6 +63,7 @@ class AuthController extends Controller
 
             // Registrar el inicio del período de actividad
             $request->session()->put('ultima_actividad', time());
+            $request->session()->put('recordarme', $recordarme);
 
             return redirect()->route('dashboard');
         }

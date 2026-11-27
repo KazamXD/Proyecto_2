@@ -14,6 +14,7 @@ class Usuario extends Authenticatable
 
     protected $hidden = [
         'password_hash',
+        'remember_token',
     ];
 
     public function getAuthPasswordName()
