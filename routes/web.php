@@ -27,7 +27,7 @@ Route::post('/logout', [AuthController::class, 'logout'])
 
 // Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware('auth')
+    ->middleware(['auth', 'inactividad'])
     ->name('dashboard');
 
 // Equipos
