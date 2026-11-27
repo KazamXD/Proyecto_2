@@ -192,6 +192,15 @@
                     {{ $equipos->appends(request()->query())->links() }}
                 </div>
             @endif
+            
+
+            <!-- Volver al dashboard -->
+            <div class="mt-3">
+                <a href="{{ route('dashboard') }}"
+                class="btn btn-outline-primary">
+                    Volver al dashboard
+                </a>
+            </div>
 
         </div>
     </div>

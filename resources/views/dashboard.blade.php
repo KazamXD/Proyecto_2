@@ -74,20 +74,15 @@
                     <div class="card shadow-sm h-100">
                         <div class="card-body">
                             <h5 class="card-title">Usuarios</h5>
+
                             <p class="card-text">
-                                Registrar nuevos usuarios en el sistema.
+                                Consultar y administrar los usuarios del sistema.
                             </p>
 
-                            @if (Route::has('usuarios.create'))
-                                <a href="{{ route('usuarios.create') }}"
-                                   class="btn btn-primary">
-                                    Crear usuario
-                                </a>
-                            @else
-                                <button class="btn btn-primary" disabled>
-                                    Próximamente
-                                </button>
-                            @endif
+                            <a href="{{ route('usuarios.index') }}"
+                            class="btn btn-primary">
+                                Gestionar usuarios
+                            </a>
                         </div>
                     </div>
                 </div>

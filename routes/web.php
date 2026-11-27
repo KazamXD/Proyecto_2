@@ -6,6 +6,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\UsuarioController;
+
 
 Route::get('/', function () {
     return Auth::check()
@@ -30,18 +32,46 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'inactividad'])
     ->name('dashboard');
 
-// Equipos
+// -----------  Usuarios  -----------
+// ver usuarios
+Route::get('/usuarios', [UsuarioController::class, 'index'])
+    ->middleware([
+        'auth',
+        'inactividad',
+        'permiso:usuarios.ver',
+    ])
+    ->name('usuarios.index');
+// Crear usuarios, es mas como mostrar el formulario
+Route::get('/usuarios/create', [UsuarioController::class, 'create'])
+    ->middleware([
+        'auth',
+        'inactividad',
+        'permiso:usuarios.crear',
+    ])
+    ->name('usuarios.create');
+//Guardar el usuario
+Route::post('/usuarios', [UsuarioController::class, 'store'])
+    ->middleware([
+        'auth',
+        'inactividad',
+        'permiso:usuarios.crear',
+    ])
+    ->name('usuarios.store');
+
+// -----------  Equipos  -----------
+// Ver equipos
 Route::get('/equipos', [EquipoController::class, 'index'])
     ->middleware(['auth', 'permiso:equipos.ver'])
     ->name('equipos.index');
 
-// Categorías
-Route::middleware('auth')->group(function () {
+// -----------  Categorías  -----------
 
+Route::middleware('auth')->group(function () {
+    // Ver categorías
     Route::get('/categorias', [CategoriaController::class, 'index'])
         ->middleware('permiso:categorias.ver')
         ->name('categorias.index');
-
+    //Crear categorías
     Route::get('/categorias/crear', [CategoriaController::class, 'create'])
         ->middleware('permiso:categorias.crear')
         ->name('categorias.create');
@@ -49,7 +79,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/categorias', [CategoriaController::class, 'store'])
         ->middleware('permiso:categorias.crear')
         ->name('categorias.store');
-
+    //Editar categorías
     Route::get('/categorias/{categoria}/editar', [CategoriaController::class, 'edit'])
         ->middleware('permiso:categorias.editar')
         ->name('categorias.edit');
@@ -57,7 +87,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/categorias/{categoria}', [CategoriaController::class, 'update'])
         ->middleware('permiso:categorias.editar')
         ->name('categorias.update');
-
+    //Eliminar categorías
     Route::delete('/categorias/{categoria}', [CategoriaController::class, 'destroy'])
         ->middleware('permiso:categorias.eliminar')
         ->name('categorias.destroy');
