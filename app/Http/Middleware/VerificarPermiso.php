@@ -17,6 +17,10 @@ class VerificarPermiso
     ): Response {
         $usuario = Auth::user();
 
+        if (!$usuario) {
+            abort(401, 'Debes iniciar sesión.');
+        }
+
         $tienePermiso = DB::table('rol_permiso as rp')
             ->join(
                 'permisos as p',

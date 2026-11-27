@@ -61,4 +61,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/categorias/{categoria}', [CategoriaController::class, 'destroy'])
         ->middleware('permiso:categorias.eliminar')
         ->name('categorias.destroy');
+
+    //Ruta para probar permisos de usuarios
+    /*Route::get('/prueba-permisos', function () {
+        return 'Acceso autorizado correctamente.';
+    })->middleware([
+        'auth',
+        'inactividad',
+        'permiso:usuarios.ver',
+    ]);*/
+
+    
 });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
+use App\Services\ServicioBitacora;
 
 class AuthController extends Controller
 {
@@ -65,6 +66,16 @@ class AuthController extends Controller
             $request->session()->put('ultima_actividad', time());
             $request->session()->put('recordarme', $recordarme);
 
+            try {
+                ServicioBitacora::registrar(
+                    (int) Auth::id(),
+                    'LOGIN',
+                    'usuarios'
+                );
+            } catch (\Throwable $e) {
+                report($e);
+            }
+
             return redirect()->route('dashboard');
         }
 
@@ -89,6 +100,19 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        // Guardar el ID antes de cerrar la sesión
+        $usuarioId = Auth::id();
+
+        try {
+            ServicioBitacora::registrar(
+                $usuarioId !== null ? (int) $usuarioId : null,
+                'LOGOUT',
+                'usuarios'
+            );
+        } catch (\Throwable $e) {
+            report($e);
+        }
+
         Auth::logout();
 
         $request->session()->invalidate();
