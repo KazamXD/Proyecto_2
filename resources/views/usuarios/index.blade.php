@@ -123,6 +123,7 @@
                             <th>Correo</th>
                             <th>Rol</th>
                             <th>Estado</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
 
@@ -154,7 +155,33 @@
                                         </span>
                                     @endif
                                 </td>
+
+                                <td>
+                                    @if ($puedeEditar)
+                                        <a href="{{ route('usuarios.edit', $usuario) }}"
+                                        class="btn btn-warning btn-sm">
+                                            Editar
+                                        </a>
+                                    @endif
+
+                                    @if ($puedeEliminar && (int) auth()->id() !== (int) $usuario->id)
+                                        <form method="POST"
+                                            action="{{ route('usuarios.destroy', $usuario) }}"
+                                            class="d-inline"
+                                            onsubmit="return confirm('¿Seguro que deseas desactivar este usuario?');">
+
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                Eliminar
+                                            </button>
+                                        </form>
+                                    @endif
+                                </td>
+
                             </tr>
+                            
                         @empty
                             <tr>
                                 <td colspan="6"
@@ -165,6 +192,7 @@
                         @endforelse
 
                     </tbody>
+                    
                 </table>
             </div>
 

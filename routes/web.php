@@ -58,6 +58,33 @@ Route::post('/usuarios', [UsuarioController::class, 'store'])
     ])
     ->name('usuarios.store');
 
+// Editar usuarios, muestra formulario de edición
+Route::get('/usuarios/{usuario}/edit', [UsuarioController::class, 'edit'])
+    ->middleware([
+        'auth',
+        'inactividad',
+        'permiso:usuarios.editar',
+    ])
+    ->name('usuarios.edit');
+
+// Guardar los cambios
+Route::put('/usuarios/{usuario}', [UsuarioController::class, 'update'])
+    ->middleware([
+        'auth',
+        'inactividad',
+        'permiso:usuarios.editar',
+    ])
+    ->name('usuarios.update');
+
+//Eliminar usuarios
+Route::delete('/usuarios/{usuario}', [UsuarioController::class, 'destroy'])
+    ->middleware([
+        'auth',
+        'inactividad',
+        'permiso:usuarios.eliminar',
+    ])
+    ->name('usuarios.destroy');
+
 // -----------  Equipos  -----------
 // Ver equipos
 Route::get('/equipos', [EquipoController::class, 'index'])
