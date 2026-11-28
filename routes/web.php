@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\ProveedorController;
 
 
 Route::get('/', function () {
@@ -126,3 +127,32 @@ Route::put('/equipos/{equipo}', [EquipoController::class, 'update'])
 Route::delete('/equipos/{equipo}', [EquipoController::class, 'destroy'])
     ->middleware(['auth', 'inactividad', 'permiso:equipos.eliminar'])
     ->name('equipos.destroy');
+
+// ----------- Proveedores -----------
+
+Route::middleware(['auth', 'inactividad'])->group(function () {
+
+    Route::get('/proveedores', [ProveedorController::class, 'index'])
+        ->middleware('permiso:proveedores.ver')
+        ->name('proveedores.index');
+
+    Route::get('/proveedores/crear', [ProveedorController::class, 'create'])
+        ->middleware('permiso:proveedores.crear')
+        ->name('proveedores.create');
+
+    Route::post('/proveedores', [ProveedorController::class, 'store'])
+        ->middleware('permiso:proveedores.crear')
+        ->name('proveedores.store');
+
+    Route::get('/proveedores/{id}/editar', [ProveedorController::class, 'edit'])
+        ->middleware('permiso:proveedores.editar')
+        ->name('proveedores.edit');
+
+    Route::put('/proveedores/{id}', [ProveedorController::class, 'update'])
+        ->middleware('permiso:proveedores.editar')
+        ->name('proveedores.update');
+
+    Route::delete('/proveedores/{id}', [ProveedorController::class, 'destroy'])
+        ->middleware('permiso:proveedores.eliminar')
+        ->name('proveedores.destroy');
+});

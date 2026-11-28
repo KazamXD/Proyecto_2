@@ -126,6 +126,24 @@
                 </div>
             @endif
 
+            @if ($puedeVerProveedores)
+                <div class="col-md-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Gestión de proveedores</h5>
+                            <p class="card-text">
+                                Consultar, registrar y administrar los proveedores
+                                del sistema.
+                            </p>
+                            <a href="{{ route('proveedores.index') }}"
+                               class="btn btn-primary">
+                                Ir a proveedores
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             @if ($puedeCrearPrestamos)
                 <div class="col-md-4">
                     <div class="card shadow-sm h-100">
