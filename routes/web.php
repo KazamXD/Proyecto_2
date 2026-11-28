@@ -103,3 +103,26 @@ Route::middleware('auth')->group(function () {
 
     
 });
+
+// Crear equipos
+Route::get('/equipos/crear', [EquipoController::class, 'create'])
+    ->middleware(['auth', 'inactividad', 'permiso:equipos.crear'])
+    ->name('equipos.create');
+
+Route::post('/equipos', [EquipoController::class, 'store'])
+    ->middleware(['auth', 'inactividad', 'permiso:equipos.crear'])
+    ->name('equipos.store');
+
+// Editar equipos
+Route::get('/equipos/{equipo}/editar', [EquipoController::class, 'edit'])
+    ->middleware(['auth', 'inactividad', 'permiso:equipos.editar'])
+    ->name('equipos.edit');
+
+Route::put('/equipos/{equipo}', [EquipoController::class, 'update'])
+    ->middleware(['auth', 'inactividad', 'permiso:equipos.editar'])
+    ->name('equipos.update');
+
+// Eliminar equipos
+Route::delete('/equipos/{equipo}', [EquipoController::class, 'destroy'])
+    ->middleware(['auth', 'inactividad', 'permiso:equipos.eliminar'])
+    ->name('equipos.destroy');
